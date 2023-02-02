@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 8ec5f94b2497e465190db42a257e7711
+guid: 179389d24db4c4b69b17cefee8ec5bdb
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
@@ -7,8 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Material #27.001
-    second: {fileID: 2100000, guid: f467aff2f155d4b1c9a27ee556813646, type: 2}
+      name: Elf_bush_Map
+    second: {fileID: 2100000, guid: 3b4f9fc6255ff4f3da0e6bc7e7367e9f, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
