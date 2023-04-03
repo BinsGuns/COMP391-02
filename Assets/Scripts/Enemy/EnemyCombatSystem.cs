@@ -16,26 +16,37 @@ public class EnemyCombatSystem : MonoBehaviour
     {
         _enemyController = GetComponent<EnemyController>();
     }
-
-   
     
     private void OnCollisionEnter(Collision collider)
     {
         if (collider.gameObject.CompareTag("Player"))
         {
+            _attackingPlayer = true;
             StartCoroutine(AttackPlayer());
         }
+    
+    }
 
+    private void OnCollisionExit(Collision other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            _attackingPlayer = false;
+        }
     }
     
+   
 
     private IEnumerator AttackPlayer()
     {
         while (_attackingPlayer)
         {
+            _enemyController.EnemyAttackAnimation?.Invoke();
             _enemyController.OnAttackPlayer?.Invoke(_attackOneDamage);
            yield return new WaitForSeconds(_attackDelay);
         }
         
     }
+    
+    
 }

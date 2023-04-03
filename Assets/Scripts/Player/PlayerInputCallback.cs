@@ -25,7 +25,6 @@ public class PlayerInputCallback : MonoBehaviour
    // when player click left mouse
    public void OnFire()
    {
-      Debug.Log("ATTACKING");
       _playerController.isPlayerAttacking?.Invoke(true);
    }
 }

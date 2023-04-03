@@ -14,6 +14,11 @@ public  class Hitbox : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Enemy")) _playerController.OnEnemyHit?.Invoke(other.gameObject);
+        if (other.CompareTag("Enemy") || other.CompareTag("Boss"))
+        {
+            _playerController.OnEnemyHit?.Invoke(other.gameObject);
+        }
+
+       
     }
 }

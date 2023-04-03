@@ -32,40 +32,49 @@ public class PlayerMovement : MonoBehaviour
         groundedPlayer = _characterController.isGrounded;
         if (groundedPlayer && playerVelocity.y < 0)
         {
+            _playerController.OnJump?.Invoke(false);
             playerVelocity.y = 0f;
         }
         
         // jump
         if (groundedPlayer && playerVelocity.y > 0)
         {
+            _playerController.OnMove?.Invoke(false);
+            _playerController.OnJump?.Invoke(true);
             playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
         }
 
-        
+        if (playerVelocity.x != 0 && playerVelocity.y <= 0)
+        {
+            _playerController.OnMove?.Invoke(true);
+        }
         // add gravity
         playerVelocity.y += gravityValue * Time.deltaTime;
             
         // this moves left and right
         _characterController.Move(playerVelocity * Time.deltaTime * _playerSpeed);
-            
         
-
     }
+
+    
     
     public void OnPlayerMove(float valueX,float valueY)
     {
         playerVelocity = new Vector3(valueX, valueY, 0); // left and right and jump
         // flip the character image
-        if (valueX < 0 )
+        if (valueX < 0 ) // left
         {
-           // _hitboxCollider.localPosition = Vector3.zero;
             _hitboxCollider.localPosition = new Vector3( -_hitboxXOffset, 0, 0);
             _playerController.spriteRenderer.flipX = true;
         }else if (valueX > 0)
         {
+            
             _hitboxCollider.localPosition = new Vector3( _hitboxXOffset, 0, 0); // position hitbox left
             _playerController.spriteRenderer.flipX = false;
-            
+        }
+        else
+        {
+            _playerController.OnMove?.Invoke(false);
         }
     }
     

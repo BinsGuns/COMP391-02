@@ -10,9 +10,10 @@ public class PlayerCombatSystem : MonoBehaviour
     private bool damageDone;
     private GameObject _enemy;
     private EnemyController _enemyController;
+    private BossController _bossController;
     private Rigidbody _enemyRigidBody;
     public float attackOneDuration;
-    private const float FORCE = 200;
+    private const float FORCE = 250;
 
     public float attackOneDamage;
     
@@ -34,7 +35,7 @@ public class PlayerCombatSystem : MonoBehaviour
         {
             EnableHitBox();
             
-            if (_enemyController && !damageDone)
+            if ((_enemyController || _bossController) && !damageDone)
             {
                 DamageToEnemy();
                 //add force upon hit
@@ -53,13 +54,23 @@ public class PlayerCombatSystem : MonoBehaviour
     {
         damageDone = false;
         _enemy = enemyObject;
-        _enemyRigidBody = enemyObject.GetComponent<Rigidbody>();
-        _enemyController = enemyObject.GetComponent<EnemyController>();
+
+        if (enemyObject.CompareTag("Enemy"))
+        {
+            _enemyRigidBody = enemyObject.GetComponent<Rigidbody>();
+            _enemyController = enemyObject.GetComponent<EnemyController>();
+        }else if (enemyObject.CompareTag("Boss"))
+        {
+            _enemyRigidBody = enemyObject.GetComponent<Rigidbody>();
+            _bossController = enemyObject.GetComponent<BossController>();
+        }
     }
 
     private void DamageToEnemy()
     {
-        _enemyController.OnDamageTaken?.Invoke(attackOneDamage);
+        if(_enemyController) _enemyController.OnDamageTaken?.Invoke(attackOneDamage); // normal enemy
+        else if(_bossController) _bossController.OnDamageTaken?.Invoke(attackOneDamage); // boss
+        
         damageDone = true;
     }
     private void EnableHitBox()
